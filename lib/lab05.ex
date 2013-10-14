@@ -20,7 +20,7 @@ defmodule Lab05 do
                     { res, _ } -> res 
                     _          -> nil
                   end))
-    |> Enum.reject(&Kernel.nil?/1)
+    |> Enum.reject(&nil?/1)
   end
 
   def check_line(line, line_list) do
@@ -40,12 +40,12 @@ defmodule Lab05 do
     end
   end
 
-  def divizor, do: 100
-  def max_cats, do: 5
+  @divizor 100
+  @max_cats 5
 
   defp _catg(hash, [head | tail]) do
-    _catg(HashDict.update(hash, 
-                          min(max_cats, div(head, divizor)), 
+    _catg(Dict.update(hash, 
+                          min(@max_cats, div(head, @divizor)), 
                           1, 
                           &(&1 + 1)), 
           tail)
@@ -53,29 +53,29 @@ defmodule Lab05 do
   defp _catg(hash, []), do: hash
 
   def categorize(num_list) do
-    _catg(HashDict.new([]), num_list)
+    _catg HashDict.new, num_list
   end
 
   defp _stars(0), do: ""
   defp _stars(x), do: "*" <> _stars(x - 1)
 
   def print(k, k, scale, hash) do
-    v = HashDict.get(hash, k, 0)
-    :io.format("~13w+  ~3w|~s~n", [k * divizor, v, _stars(round(v * scale))])
+    v = Dict.get(hash, k, 0)
+    :io.format("~13w+  ~3w|~s~n", [k * @divizor, v, _stars(round(v * scale))])
   end
 
   def print(k, _, scale, hash) do
-    v = HashDict.get(hash, k, 0)
-    kc = k * divizor
+    v = Dict.get(hash, k, 0)
+    kc = k * @divizor
     stars = _stars(round(v * scale))
-    :io.format("~11w-~3w ~3w|~s~n", [kc, kc + divizor - 1, v, stars])
+    :io.format("~11w-~3w ~3w|~s~n", [kc, kc + @divizor - 1, v, stars])
   end
 
   def print_histogram(hash) do
-    vals = HashDict.values hash
+    vals = Dict.values hash
     scale = 50 / ((Enum.empty?(vals) && 1) || Enum.max(vals))
     
-    Enum.each 0..max_cats, &print &1, max_cats, scale, hash
+    Enum.each 0..@max_cats, &print &1, @max_cats, scale, hash
 
     IO.puts ""
   end
