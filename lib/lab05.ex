@@ -45,9 +45,9 @@ defmodule Lab05 do
 
   defp _catg(hash, [head | tail]) do
     _catg(Dict.update(hash, 
-                          min(@max_cats, div(head, @divizor)), 
-                          1, 
-                          &(&1 + 1)), 
+                      min(@max_cats, div(head, @divizor)), 
+                      1, 
+                      &(&1 + 1)), 
           tail)
   end
   defp _catg(hash, []), do: hash
